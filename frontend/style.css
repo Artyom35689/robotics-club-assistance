@@ -1,0 +1,12 @@
+body {
+  font-family: sans-serif;
+  padding: 1rem;
+  background: #f0f0f0;
+}
+
+#teams {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+}
