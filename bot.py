@@ -6,7 +6,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 load_dotenv()  # Загружаем переменные из .env
 
 TOKEN = os.getenv("TG_BOT_TOKEN")
-WEBAPP_URL = os.getenv("WEBAPP_URL", "http://localhost:8000/webapp")
+WEBAPP_URL = os.getenv("WEBAPP_URL", "https://localhost:8000/webapp")
 
 if not TOKEN:
     raise RuntimeError("Отсутствует TG_BOT_TOKEN в переменных окружения!")
