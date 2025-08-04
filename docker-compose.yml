@@ -1,5 +1,7 @@
 services:
   backend:
+    env_file:
+      - .env
     build: .
     container_name: robotics-bot-backend
     restart: unless-stopped
@@ -12,14 +14,34 @@ services:
     environment:
       - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/robotics_club
       - TG_BOT_TOKEN=${TG_BOT_TOKEN}
-      - WEBAPP_URL=${WEBAPP_URL}
     depends_on:
       db:
         condition: service_healthy
     ports:
       - "8000:8000"
 
+  bot:
+    env_file:
+      - .env
+    build: .
+    container_name: robotics-bot-bot
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    working_dir: /home/ws
+    command: ["python", "bot.py"]
+    volumes:
+      - .:/home/ws
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/robotics_club
+      - TG_BOT_TOKEN=${TG_BOT_TOKEN}    
+    depends_on:
+      backend:
+        condition: service_started
+
   terminal:
+    env_file:
+      - .env
     build: .
     stdin_open: true
     tty: true
@@ -29,6 +51,8 @@ services:
       - .:/home/ws
 
   db:
+    env_file:
+      - .env
     image: postgres:14
     container_name: robotics-bot-db
     restart: unless-stopped

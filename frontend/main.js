@@ -1,13 +1,14 @@
 const tg = window.Telegram.WebApp;
 tg.expand();
 
+const API_URL = window.API_URL;
 const userId = tg.initDataUnsafe?.user?.id;
 document.getElementById("username").innerText = tg.initDataUnsafe?.user?.first_name || "пользователь";
 
 if (!userId) {
   document.getElementById("teams").innerText = "Не удалось определить пользователя.";
 } else {
-  fetch(`/users/${userId}/teams`)
+  fetch(`${API_URL}/users/${userId}/teams`)
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById("teams");
